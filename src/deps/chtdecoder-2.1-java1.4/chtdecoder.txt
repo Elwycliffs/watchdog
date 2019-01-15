@@ -1,0 +1,167 @@
+/*******************************************************************************
+ * Java CHTDecoder 2.1
+ * Copyright (C) 2004 emuWorks
+ * by John David Ratliff
+/*******************************************************************************
+
+  CHTDecoder is a program written to decode the .CHT files used by Snes9x and
+  ZSNES into plain text (ASCII) files.
+
+  The idea came from a request on the ZSNES Message Board by 'cracker'. The
+  only other program out there did not seem to work.
+
+  Basically, you start the program, open the .CHT file, and the codes will be
+  displayed. If you want to save that data, you can choose Save and save it to
+  a file.
+
+  There is also a TEXT mode. If you start the program from the command prompt,
+  just specify a .CHT file as an argument. Any number of .CHT files can be
+  specified. It will decode one after the other. You can redirect the output
+  to a file with the '>' operator.
+  
+  In version 2.1, some file checking was added to make sure the file you
+  submit is a valid .CHT file. But these checks are not perfect. They won't
+  stop all non-CHT files from being opened, and they will prevent certain
+  .CHT files that are valid (but non-standard for some reason -- I found one
+  on Zophar's Domain, for example) from being opened. You can specify
+  --force-open or -f as the first argument in text mode to force opening of
+  questionable files. Keep in mind this is probably NOT what you want.
+
+  Examples of text mode:
+    java -jar chtdecoder.jar mario.cht
+    java -jar chtdecoder.jar mario.cht > mario.cht.txt
+    java -jar chtdecoder.jar mario.cht lufia.cht ff6j.cht > bigchtfile.txt
+    java -jar chtdecoder.jar --force-open nonstandard.cht
+  
+  The first will decode mario.cht file to standard output. The second will
+  output to a file in the same directory named "mario.cht.txt". The directory
+  must be writable for this to work. The third one outputs multiple cheat files
+  to a single text file. The last one forces CHTDecoder to open the file
+  nonstandard.cht and treat it as a .CHT file.
+
+/*******************************************************************************
+ * Installation
+/*******************************************************************************
+
+  The full version comes already compiled and ready to run on any Java 2
+  system (Java 2 version 1.2 or later). You will need a Java Runtime
+  Environment to run this program. To the best of my knowledge, Windows does not
+  ship with a Java Runtime installed. You will need to download one. I reccomend
+  the Sun J2SE from Sun Microsystems, the creator's of Java, but any Java 2
+  version 1.2 runtime should suffice. You can download the Sun J2SE from
+  http://java.sun.com. Just look for J2SE JRE. You do not need the SDK.
+  
+  After you have this installed, you should be able to double click the JAR
+  archive to run the program. The chtdecoder.jar is a file that can be run using
+  the Java 2 Runtime Environment. If you are using Unice (Linux, Solaris, Irix,
+  HP/UX, AIX, etc), you might need to start it from the command line.
+  'java -jar chtdecoder.jar' will start the GUI version (without the quotes).
+  
+  If you want to compile the source yourself, there are several options.
+  
+  a) use a java compiler (javac, jikes, etc.)
+     cd source
+     on unix
+       javac -d ../classes chtdecoder/CHTDecoder.java
+     on Windows
+       javac -d ..\classes chtdecoder\CHTDecoder.java
+     
+     This will place all the class files in the classes directory. You can run
+     the program using java.
+     
+     cd classes
+     java chtdecoder.CHTDecoder
+     
+  b) use Eclipse. We have included an Eclipse 3.0 project. The entire folder
+     can be imported directly into Eclipse. I do not know if this project will
+     work on previous versions of Eclipse.
+     
+  c) use ant. There are several ant tasks: compile, build, run, javadoc, and
+     clean.
+     
+     compile: compiles the source into the class files.
+     build: creates the chtdecoder.jar file.
+     run: runs the program.
+     javadoc: generate the java docs.
+     clean: clean the class files, jarfile, and javadocs folder.
+     
+   d) I have submitted an ebuild for gentoo. It is not yet in portage, but it
+      may be by the time you read this. You might try
+      'emerge chtdecoder' and see if it knows about it.
+
+/*******************************************************************************
+ * Revision History
+/*******************************************************************************
+
+  Version 2.1 - October 22, 2004
+    Added support for .CHT file validity checking. This should prevent the
+      majority of invalid files from being opened in case you accidentally
+      chose the wrong file.
+    Fixed DragNDrop support on Linux which works differently than in Windows.
+    Added code numbering in the GUI display.
+  Version 2.0 - September 27, 2004
+    Switched from AWT to Swing. Since the signed applet cannot be run in Java
+      1.1, there is no reason to avoid the advantages of Swing any longer.
+    Added DragNDrop support. You can now drag your .CHT files onto the window
+      instead of using the FileChooser dialog.
+    Added FileFilter support to the FileChooser. It can now filter the dialog
+      by .CHT files or by .TXT files to make it easier.
+    The open dialog will now only open files with .CHT extentions. This should
+      prevent accidental opening of bad file types.
+  Version 1.2 - Sept 21, 2004
+    Fixed bug where if you hit the cancel button on the file dialog it displays
+      an error message.
+  Version 1.1 - Sept 19, 2004
+    Added zero padded Strings for numbers that have zero's at the front.
+    Instead of showing B15F2:B, it will now show 0B15F2:0B.
+  Version 1.0 - Sept 14, 2004
+    Initial Version
+
+/*******************************************************************************
+ * Notes, Bugs, and Other Miscellany
+/*******************************************************************************
+
+  Version 2.0 is written in Java 2. The DragNDrop support in Version 2.1
+  requires the Swing DragNDrop facilities added in Java 1.4. It has been tested
+  to run under Windows and Linux using the Sun Java 2 1.4.2 Java Virtual
+  Machine. Any vendor's JVM that is compliant with the Sun Java 1.4
+  specification should work, but we have only tested Sun's JVM.
+  
+  Version 1.2 will run in Java 1.1. But the applet must be signed, and therefore
+  will will not run on Java 1.1 browsers (you need the Sun Java Plug-In). But
+  you can run the application in a Java 1 JRE. There is no DragNDrop support in
+  Version 1.2.
+  
+  The text mode can not be used from the applet.
+  
+  This program is based on my examination of .CHT files from ZSNES WIP 0907. I
+  did not have any .CHT files to test with before starting this project, so I
+  made a test file to try it out. What I learned from that test file may or may
+  not be correct. It seems to work, but I cannot guarantee that. Please contact
+  me if it doesn't seem to work right.
+  
+  Snes9x puts some different values in the .CHT file than ZSNES. I don't know
+  what this means, but the program seems to work fine even with Snes9x files.
+  Since I don't use Snes9x though, I can't guarantee this (well, I can't
+  guarantee the ZSNES will work 100% of the time either, but it sure seems
+  to).
+  
+  This program should not damage your computer in any way, but there is no
+  warranty. You're on your own if it blows up and takes your system with it.
+  See the GNU GPL for more information. http://www.gnu.org
+  
+  Want to contact me? Use my online feedback form at
+  http://www.technoplaza.net/feedback.php
+  
+  Sorry, no email contact. Too many spammers out there to post an email 
+  address.
+  
+/*******************************************************************************
+ * Credits and Thank Yous
+/*******************************************************************************
+
+  - Davanum Srinivas
+      For his tutorial on DnD.
+      http://www.codeproject.com/java/dnd.asp  
+
+/*******************************************************************************
