@@ -16,10 +16,10 @@ class Globs:
             cls.instance = super(Globs, cls).__new__(cls)
 
         return cls.instance
-
         # --------------------
 
     # Object constructor
+
     def __init__(self):
         if sys.platform == 'linux' or sys.platform == 'linux2':
             self.root = os.path.join('/opt', 'Notifier')
@@ -72,13 +72,15 @@ class Globs:
                 for subitem in defaults[item]:
                     if defaults[item][subitem] == '':
                         print('-------------------------------------------------')
-                        print("configure %s's '%s' value to proceed \n" % (item, subitem))
+                        print("configure %s's '%s' value to proceed \n" %
+                              (item, subitem))
                         self.defaults[item][subitem] = input(subitem + ': ')
 
                         if str(subitem).endswith('PATH'):
                             while not os.path.exists(self.defaults[item][subitem]):
                                 print('That path is non-existent')
-                                self.defaults[item][subitem] = input(subitem + ': ')
+                                self.defaults[item][subitem] = input(
+                                    subitem + ': ')
 
                         print('-------------------------------------------------')
                     print(subitem + ': ' + str(defaults[item][subitem]))

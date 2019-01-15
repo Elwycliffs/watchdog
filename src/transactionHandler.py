@@ -1,3 +1,4 @@
+
 """
 Module: Transaction Handler
 Version: 1.0
@@ -20,8 +21,10 @@ import sys
 import time
 import datetime
 import subprocess
-from watchdog.observers.polling import PollingObserver
+from globalObjects import Globs
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers.polling import PollingObserver
+from deps.africasTalking import instantMessage
 
 
 # adding root path
@@ -29,23 +32,20 @@ root = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, root)
 
 
-from globalObjects import Globs
-from deps.africasTalking import instantMessage
-
-
 # Module: Watchdog -> monitoring on_created events for *.CHT files
 class Watchdog(FileSystemEventHandler, object):
+
     def on_created(self, event):
         source = ''
         if not event.is_directory:
             source = event.src_path
 
-        if str(source).endswith('.CHT'):
+        if str(source).endswith('.CSV'):
             path = source
+            print('Found %s' % path)
             furnisher = os.path.join(root, 'furnisher.py')
             subprocess.Popen(['python3 %s %s' % (furnisher, path)], shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            print('Found %s' % path)
 
         # --------------------
 
@@ -59,9 +59,9 @@ if __name__ == "__main__":
     WATCHDOG.schedule(EVENTHANDLER, path=target, recursive=True)
 
     try:
-        print('''Module: Transaction Handler\nVersion: 1.0 alpha\nAuthor: CODE ROOT SYSTEMS''')
+        print(
+            '''Module: Transaction Handler\nVersion: 1.0 alpha\nAuthor: CODE ROOT SYSTEMS''')
         print('--------------------------')
-
         WATCHDOG.start()
         print('[OK] Transaction Handler Initialized        ' +
               str(datetime.datetime.now().strftime("%H:%M:%S [%Y-%m-%d]")))
@@ -70,11 +70,11 @@ if __name__ == "__main__":
         while True:
             time.sleep(1)
 
-        # --------------------
+            # --------------------
 
     except SystemError:
         alert = "SystemError\n" \
-                 "Unit: 'Transaction Module' !!FAILED"
+            "Unit: 'Transaction Module' !!FAILED"
         messenger = instantMessage('+254702462698', alert)
         messenger.transmit()
 

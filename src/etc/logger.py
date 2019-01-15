@@ -20,7 +20,8 @@ class transLogger:
 
     def info(self, logInfo):
         logInfo = logInfo
-        logging.basicConfig(filename=os.path.join(self.infoDir, self.logFile), level=logging.INFO, format='')
+        logging.basicConfig(filename=os.path.join(
+            self.infoDir, self.logFile), level=logging.INFO, format='')
         logging.info(logInfo)
 
     def error(self, logInfo):

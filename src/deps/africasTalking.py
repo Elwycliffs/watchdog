@@ -1,12 +1,12 @@
-import os
-import sys
-
+# from africastalking import AfricasTalkingGateway as ATG
 # adding root path
+import sys
+import os
+from globalObjects import Globs
+import africastalking as ATG
+
 root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.insert(0, root)
-
-from globalObjects import Globs
-from africastalking import AfricasTalkingGateway as ATG
 
 
 class instantMessage:
@@ -23,14 +23,17 @@ class instantMessage:
             config = GLOBALVARS.fetchConfig()
             APINAME = config['AfricasTalking']['USERNAME']
             APIKEY = config['AfricasTalking']['API_KEY']
-            gateway = ATG.AfricasTalkingGateway(APINAME, APIKEY)
-            results = gateway.sendMessage(self.destination, self.message, self.sender)
-            return results
+            ATG.initialize(APINAME, APIKEY)
+            ENGINE = ATG.SMS
+            response = ENGINE.send(
+                self.message, [self.destination], self.sender)
+            return response
 
-    except ATG.AfricasTalkingGatewayException as e:
-        print('Encountered an error while sending: %s ' % str(e))
+    except:
+        print('Encountered an error while sending')
 
 
 if __name__ == '__main__':
-    handler = instantMessage('+254702462698', 'Unit Test Complete: Component alive.')
+    handler = instantMessage(
+        '+254702462698', 'Unit Test Complete: Component alive.')
     handler.transmit()
