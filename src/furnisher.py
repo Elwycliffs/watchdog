@@ -131,17 +131,7 @@ class Worker:
         try:
             smsHandler = instantMessage(
                 transmission['destination'], transmission['message'])
-            results = smsHandler.transmit()
-            status = None
-
-            for result in results:
-                status = result['status']
-
-            self.logger.info('Destination: %s' % transmission['destination'])
-            self.logger.info('Status: %s' % status)
-            self.logger.info('Time: %s ' %
-                             str(datetime.datetime.now().strftime("%H:%M:%S [%Y-%m-%d]")))
-            self.logger.info('\n%s\n' % transmission['message'])
+            smsHandler.transmit()
 
         except Exception as e:
             self.logger.error(
