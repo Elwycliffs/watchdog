@@ -1,6 +1,6 @@
 from deps.africasTalking import instantMessage
 from etc.logger import transLogger
-# from deps.dbEngine import dbConnection
+from deps.dbEngine import dbConnection
 import os
 import sys
 import re
@@ -154,8 +154,7 @@ class Worker:
             data = self.transpile(self.transaction)
 
             # Fetch Member information
-            # info = self.miner(data["userID"])
-            info = dict(name="Wycliff", mobile="+254702462698")
+            info = self.miner(data["userID"])
 
             print("Sending Message")
             if(info["mobile"] != "N/A"):
