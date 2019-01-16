@@ -1,6 +1,6 @@
 from deps.africasTalking import instantMessage
 from etc.logger import transLogger
-from deps.dbEngine import dbConnection
+# from deps.dbEngine import dbConnection
 import os
 import sys
 import re
@@ -118,10 +118,10 @@ class Worker:
 
             if(len(source) == 8):
                 data = dict(ttype="topup", userID=source[2], reference=source[3],
-                            total=source[5], balance=source[-1])
+                            total=source[5], openingBal=source[-2], closingBal=source[-1])
             elif(len(source) == 12):
                 data = dict(ttype="debit", userID=source[2], reference=source[3], total=source[
-                            8], balance=source[-1])
+                            8], openingBal=source[-2], closingBal=source[-1])
 
         return data
 
@@ -154,7 +154,8 @@ class Worker:
             data = self.transpile(self.transaction)
 
             # Fetch Member information
-            info = self.miner(data["userID"])
+            # info = self.miner(data["userID"])
+            info = dict(name="Wycliff", mobile="+254702462698")
 
             print("Sending Message")
             if(info["mobile"] != "N/A"):
@@ -167,13 +168,13 @@ class Worker:
                 # Transmit here
                 if(data["ttype"] == "topup"):
                     print("Found Topup")
-                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nYour new balance is Kshs %s.\nAny Query? Contact +254704100191.''' % (
-                        data['name'], data['total'], data['userID'], data['reference'], data["balance"])
+                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nAny Query? Contact +254704100191.''' % (
+                        data['name'], data['total'], data['userID'], data['reference'], data["openingBal"], data["closingBal"])
 
                 elif(data["ttype"] == "debit"):
                     print("Found Debit")
-                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nYour new balance is Kshs %s.\nAny Query? Contact +254704100191.''' % (data['name'], data['total'], data['userID'],
-                                                                                                                                                                        data['reference'], data["balance"])
+                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nAny Query? Contact +254704100191.''' % (data['name'], data['total'], data['userID'],
+                                                                                                                                                                                               data['reference'], data["openingBal"], data["closingBal"])
 
                 transmission = dict(
                     destination=data["mobile"], message=message)
