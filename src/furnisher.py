@@ -167,12 +167,12 @@ class Worker:
                 # Transmit here
                 if(data["ttype"] == "topup"):
                     print("Found Topup")
-                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nAny Query? Contact +254704100191.''' % (
+                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nContact +254704100191.''' % (
                         data['name'], data['total'], data['userID'], data['reference'], data["openingBal"], data["closingBal"])
 
                 elif(data["ttype"] == "debit"):
                     print("Found Debit")
-                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nAny Query? Contact +254704100191.''' % (data['name'], data['total'], data['userID'],
+                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nContact +254704100191.''' % (data['name'], data['total'], data['userID'],
                                                                                                                                                                                                data['reference'], data["openingBal"], data["closingBal"])
 
                 transmission = dict(

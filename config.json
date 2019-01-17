@@ -1,1 +1,1 @@
-{"TransactionHandler": {"REPOPATH": "/opt/Notifier/Transactions", "TARGETPATH": "/mnt/Jonas/GJCWIN/DATA"}, "AfricasTalking": {"USERNAME": "parklandsc", "API_KEY": "424e31d444d1f02b16cd0a8fa05b590e0b60ebcf9bf98923eb8cb08afb6c41a9"}}
+{"TransactionHandler": {"REPOPATH": "/opt/Notifier/Transactions", "TARGETPATH": "/mnt/Jonas/GJCWIN/DATA/LEVY_TRANS/"}, "AfricasTalking": {"USERNAME": "parklandsc", "API_KEY": "424e31d444d1f02b16cd0a8fa05b590e0b60ebcf9bf98923eb8cb08afb6c41a9"}}
