@@ -34,25 +34,7 @@ class Worker:
                 data = database.data()
 
                 for item in data:
-                    userName = item[0]
                     phnNo = item[1]
-                    userName = str(userName).split(' ')
-
-                    if len(userName) > 2:
-                        firstName = str.title(userName[0])
-                        secondName = str.title(userName[1])
-                        surName = str.title(userName[2])
-                        userName = firstName + ' ' + secondName + ' ' + surName
-                    elif len(userName) == 2:
-                        firstName = str.title(userName[0])
-                        secondName = str.title(userName[1])
-                        userName = firstName + ' ' + secondName
-                    elif len(userName) == 1:
-                        firstName = str.title(userName[0])
-                        userName = firstName
-                    else:
-                        firstName = 'John Doe'
-                        userName = firstName
 
                     # stripping whitespaces at the beginning and the end of the value
                     phnNo = str(phnNo).strip(' ')
@@ -88,7 +70,7 @@ class Worker:
                         self.logger.info(
                             '-----------------------------------------------')
 
-                    values.update(name=userName, mobile=mobile)
+                    values.update(mobile=mobile)
 
             return values
         except Exception as e:
@@ -117,10 +99,10 @@ class Worker:
             source = rows[0]
 
             if(len(source) == 8):
-                data = dict(ttype="topup", userID=source[2], reference=source[3],
+                data = dict(ttype="topup", name=source[0], userID=source[2], reference=source[3],
                             total=source[5], openingBal=source[-2], closingBal=source[-1])
             elif(len(source) == 12):
-                data = dict(ttype="debit", userID=source[2], reference=source[3], total=source[
+                data = dict(ttype="debit", name=source[0], userID=source[2], reference=source[3], total=source[
                             8], openingBal=source[-2], closingBal=source[-1])
 
         return data
@@ -158,7 +140,7 @@ class Worker:
 
             print("Sending Message")
             if(info["mobile"] != "N/A"):
-                data.update(name=info["name"], mobile=info["mobile"])
+                data.update(mobile=info["mobile"])
                 self.logger.info(
                     "-------------------------------------------------------------")
                 self.logger.info('''Transaction Type: %s\nReference: %s\nMember Number: %s\nMember Name: %s\nPhone Number: %s\nTotal: %s''' % (
@@ -167,13 +149,13 @@ class Worker:
                 # Transmit here
                 if(data["ttype"] == "topup"):
                     print("Found Topup")
-                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nContact +254704100191.''' % (
+                    message = '''Hello %s, Kshs %s has been received on your account %s, Ref: %s.\nOpening Bal: Kshs %s\nClosing Bal: Kshs %s.\nContact +254704100191.''' % (
                         data['name'], data['total'], data['userID'], data['reference'], data["openingBal"], data["closingBal"])
 
                 elif(data["ttype"] == "debit"):
                     print("Found Debit")
-                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nOpening Balance: Kshs %s\nClosing Balance: Kshs %s.\nContact +254704100191.''' % (data['name'], data['total'], data['userID'],
-                                                                                                                                                                                               data['reference'], data["openingBal"], data["closingBal"])
+                    message = '''Hello %s, Kshs %s has been charged on your account %s, Ref: %s.\nOpening Bal: Kshs %s\nClosing Bal: Kshs %s.\nContact +254704100191.''' % (data['name'], data['total'], data['userID'],
+                                                                                                                                                                            data['reference'], data["openingBal"], data["closingBal"])
 
                 transmission = dict(
                     destination=data["mobile"], message=message)
