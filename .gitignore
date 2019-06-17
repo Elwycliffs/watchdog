@@ -1,7 +1,6 @@
-.idea
-.vscode
+.idea/
+.vscode/
 *.json
 *.backup
 venv/
-
-
+__pycache__/
