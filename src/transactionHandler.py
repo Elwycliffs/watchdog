@@ -46,7 +46,6 @@ class Watchdog(FileSystemEventHandler, object):
             furnisher = os.path.join(root, 'furnisher.py')
             subprocess.Popen(['python3 %s %s' % (furnisher, path)], shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
         # --------------------
 
 
@@ -69,7 +68,6 @@ if __name__ == "__main__":
 
         while True:
             time.sleep(1)
-
             # --------------------
 
     except SystemError:
@@ -80,7 +78,6 @@ if __name__ == "__main__":
 
         sys.exit("SystemError\n"
                  "Unit: 'Transaction Module' !!FAILED")
-
         # --------------------
 
     except RuntimeError:
@@ -91,10 +88,8 @@ if __name__ == "__main__":
 
         sys.exit("RuntimeError\n"
                  "Unit: 'Transaction Module' !!FAILED")
-
         # --------------------
 
     except KeyboardInterrupt:
         sys.exit('Sys Exit Invoked')
-
         # --------------------
