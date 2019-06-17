@@ -1,12 +1,11 @@
-# from africastalking import AfricasTalkingGateway as ATG
-# adding root path
 import sys
 import os
-from globalObjects import Globs
 import africastalking as ATG
 
+# adding root path
 root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.insert(0, root)
+from globalObjects import Globs
 
 
 class instantMessage:
