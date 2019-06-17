@@ -2,7 +2,7 @@
 """
 Module: Transaction Handler
 Version: 1.0
-Author: CODE ROOT SYSTEMS
+Author: Wycliff, CODE ROOT SYSTEMS
 
 Description
 ------------
